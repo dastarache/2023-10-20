@@ -1,0 +1,33 @@
+<?php
+/**
+ * esta funcion consultar_datos se encarga de consultar y mostrar los datos de ,
+ * una persona mediante parametros 
+ * @param num este parametro sirve y permite hacer la busqueda especifica de un usuario mediante su id
+ *@param num este parametro sirve para que mediante una contraseña se autentique el usuario
+ *@return varchar en este ultimo nos retorna los datos del usuario consultado
+ */
+//abertura de las etiuetas para un documento php
+function consultar_datos($id_usuario = null,$contraseña = null){//nombre de la funcion 
+    $conexion = mysqli_connect('localhost', 'root', 'root', 'nueva');//conexion de la funcion 
+    $sql = "SELECT * FROM usuario";//sql de lo que va a hacer la funcion 
+    if ($id_usuario != null && $contraseña != null) {
+       $sql .= " WHERE id_usuario = {$id_usuario} AND contraseña = '{$contraseña}'";
+    } elseif ($id_usuario != null) {
+        $sql .= " WHERE id_usuario = {$id_usuario}";
+    }
+    
+    $resultado = mysqli_query($conexion, $sql); // Se ejecuta la consulta
+    $salida = "";
+    while ($fila = mysqli_fetch_assoc($resultado)) {//inicio del ciclo while 
+        $salida .= "id: ".$fila['id_usuario'] . "<br>";//lama la fila id_usuario
+        $salida .= "nombre:".$fila['nombre'] . "<br>" ;//llama la fila nombre 
+        $salida .= "contraseña:".$fila['contraseña'] . "<br>";//llama la fila contraseña
+        $salida .= "sitio:".$fila['sitio'] . "<br>";//llama la fila sito
+        $salida .= "<br>"; // Añadir un salto de línea después de cada registro
+    }//finalizacion del ciclo while
+    mysqli_close($conexion);//cerrado de la conexion
+    return $salida;//return de la funcion 
+}//cerrado de la llave princpal 
+//cerrado de las etiquetas para un documento php
+?> 
+
